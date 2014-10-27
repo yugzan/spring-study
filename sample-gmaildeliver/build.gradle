@@ -1,0 +1,63 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'spring-boot'
+
+version = "0.1.0-SNAPSHOT"
+
+jar {
+    baseName = 'sample-maildeliver'
+}
+
+buildscript {
+    ext {
+        springBootVersion = '1.0.1.RELEASE'
+    }
+
+    repositories {
+        mavenCentral()
+        maven { url "http://repo.spring.io/release" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url "http://repo.spring.io/snapshot" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+build.doFirst {
+    tasks.copyConfigs.execute()
+    tasks.copyScripts.execute()
+}
+
+task copyConfigs(type: Copy) {
+    from 'src/main/config'
+    into "${buildDir}/libs/config"
+
+    include '**/*'
+    includeEmptyDirs = false
+}
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+task copyScripts(type: Copy) {
+    from 'src/main/scripts'
+    into "${buildDir}/libs/"
+
+    include '**/*.sh'
+    includeEmptyDirs = false
+
+    filter(ReplaceTokens, tokens: [name: jar.baseName, version: version])
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+	compile 'javax.mail:mail:1.5.0-b01'
+    compile 'org.springframework.boot:spring-boot-gradle-plugin:1.0.1.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'com.google.guava:guava:17.0'
+    compile 'org.yaml:snakeyaml:1.13'
+}
+
