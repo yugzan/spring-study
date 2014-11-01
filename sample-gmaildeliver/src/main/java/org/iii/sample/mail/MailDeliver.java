@@ -35,12 +35,11 @@ public class MailDeliver {
 //	public MailDeliver(){
 //		
 //	}
-	public MailDeliver(String host, int port ,String username, String password,ArrayList<String> recipientsArray) {
+	public MailDeliver(String host, int port ,String username, String password) {
 		this.host = host;
 		this.port = port;
 		this.username = username;
 		this.password = password;
-		setRecipients(recipientsArray);
 	}
 	public void setRecipients(ArrayList<String> recipientsArray){
 		Preconditions.checkNotNull(host);
@@ -123,7 +122,9 @@ public class MailDeliver {
 		this.password = password;
 	}
 
-	
+	public static MailDeliverBuilder builder(){
+		return new MailDeliverBuilder();
+	}
 	
 	
 //	 public void sendAttachFile(String subject, String content, String fn){
@@ -154,5 +155,35 @@ public class MailDeliver {
 //	 }
 //	
 //	 }
-
+	public static final class MailDeliverBuilder{
+		private String host = "";
+		private int port = 0;
+		private String username = "";
+		private String password = "";
+		
+		public MailDeliverBuilder setHost(String host){
+			this.host = host;
+			return this;
+		}
+		
+		public MailDeliverBuilder setPort(int port){
+			this.port = port;
+			return this;
+		}
+		
+		public MailDeliverBuilder setUserName(String username){
+			this.username = username;
+			return this;
+		}
+		
+		public MailDeliverBuilder setPassword(String password){
+			this.password = password;
+			return this;
+		}
+		
+		public MailDeliver build(){
+			return new MailDeliver(host, port, username, password);
+		}
+		
+	}
 }
