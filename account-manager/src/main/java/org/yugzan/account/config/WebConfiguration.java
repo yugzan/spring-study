@@ -11,8 +11,8 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		
 		registry
-		.addResourceHandler("/statlc/**")
-		.addResourceLocations("/static/");
+		.addResourceHandler("/cwms/**")
+		.addResourceLocations("classpath:/cwms/");
 	}
 
 }

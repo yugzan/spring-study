@@ -10,40 +10,59 @@ buildscript {
         classpath("io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE")
     }
 }
-
+apply from: 'maven-publish.gradle'
 apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
 apply plugin: 'spring-boot' 
 apply plugin: 'io.spring.dependency-management' 
 
+group = 'org.yugzan'
+version = '0.0.3-SNAPSHOT'
 jar {
     baseName = 'account-manager'
-    version = '0.0.1-SNAPSHOT'
+    version = '0.0.3-SNAPSHOT'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+// custom tasks for creating source jars
+task sourcesJar(type: Jar, dependsOn:classes) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
+artifacts { archives sourcesJar }
+
 repositories {
+  	mavenLocal()
+	maven {
+	  name "nexus maven proxy"
+	  url "http://140.92.71.209:8080/nexus/content/groups/public"
+	}
     mavenCentral()
 }
 
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile("org.springframework.boot:spring-boot-starter-security")
-    compile("org.springframework.boot:spring-boot-starter-web")
-    testCompile("org.springframework.boot:spring-boot-starter-test") 
+    compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    //testCompile("org.springframework.boot:spring-boot-starter-test") 
 }
 
-
+/*
 eclipse {
     classpath {
          containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
          containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
     }
-}
+}*/
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
+    gradleVersion = '2.5'
+}
+
+gradle.taskGraph.whenReady { graph ->
+    def badTasks = ['bootRepackage', 'findMainClass', 'startScripts']
+    graph.allTasks.findAll {it.name in badTasks}.each { task ->
+        task.enabled = false
+    }
 }

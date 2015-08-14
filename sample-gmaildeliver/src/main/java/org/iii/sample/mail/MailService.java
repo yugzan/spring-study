@@ -27,11 +27,13 @@ public class MailService {
 		
 		logger.debug(prop.toString() );
 		
-		mailDeliver = new MailDeliver(
-				prop.getHost(),
-				prop.getPort(),
-				prop.getUsername(),
-				prop.getPassword(),recipientsArray);
-		mailDeliver.send("[important]Check your account is current", "This message is fake.");
+        mailDeliver = MailDeliver.builder()
+                .setHost(prop.getHost())
+                .setPort(prop.getPort())
+                .setUserName(prop.getUsername())
+                .setPassword(prop.getPassword())
+                .build();
+        mailDeliver.setRecipients(recipientsArray);
+        mailDeliver.send("[important]Check your account is current", "This message is fake.");
 	}
 }
