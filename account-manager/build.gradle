@@ -1,9 +1,13 @@
 buildscript {
     ext {
         springBootVersion = '1.2.5.RELEASE'
+        isLibrary = true
     }
     repositories {
         mavenCentral()
+	    maven { url "http://repo.spring.io/release" }
+	    maven { url "http://repo.spring.io/milestone" }
+	    maven { url "http://repo.spring.io/snapshot" }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
@@ -16,15 +20,18 @@ apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management' 
 
 group = 'org.yugzan'
-version = '0.0.3-SNAPSHOT'
-jar {
-    baseName = 'account-manager'
-    version = '0.0.3-SNAPSHOT'
-}
+version = '0.0.2-SNAPSHOT'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+/*
+jar {
+    baseName = 'account-manager'
+    version = '0.0.3-SNAPSHOT'
+}*/
+
 // custom tasks for creating source jars
+
 task sourcesJar(type: Jar, dependsOn:classes) {
   classifier = 'sources'
   from sourceSets.main.allSource
@@ -38,6 +45,9 @@ repositories {
 	  url "http://140.92.71.209:8080/nexus/content/groups/public"
 	}
     mavenCentral()
+    maven { url "http://repo.spring.io/release" }
+    maven { url "http://repo.spring.io/milestone" }
+    maven { url "http://repo.spring.io/snapshot" }
 }
 
 
@@ -45,7 +55,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
-    //testCompile("org.springframework.boot:spring-boot-starter-test") 
+    //compile("org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}")
 }
 
 /*
@@ -59,10 +69,12 @@ eclipse {
 task wrapper(type: Wrapper) {
     gradleVersion = '2.5'
 }
-
-gradle.taskGraph.whenReady { graph ->
-    def badTasks = ['bootRepackage', 'findMainClass', 'startScripts']
-    graph.allTasks.findAll {it.name in badTasks}.each { task ->
-        task.enabled = false
-    }
+if(isLibrary){
+	springBoot { mainClass = 'org.test.account.AccountManagerApplication' }
+	gradle.taskGraph.whenReady { graph ->
+	    def badTasks = ['bootRepackage', 'findMainClass', 'startScripts']
+	    graph.allTasks.findAll {it.name in badTasks}.each { task ->
+	        task.enabled = false
+	    }
+	}
 }

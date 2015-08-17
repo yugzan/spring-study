@@ -9,4 +9,6 @@ public interface Web {
 	String USER = "user";
 	String PW = "password";
 	String ROLE = "USER";
+	String RESOURCE_URI = "/web/**";
+	String RESOURCE_CLASS_PATH = "classpath:/web/";
 }

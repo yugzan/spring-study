@@ -2,9 +2,12 @@ package org.yugzan.account.config;
 
 import java.util.Map;
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportAware;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.type.AnnotationMetadata;
@@ -15,15 +18,15 @@ import org.springframework.util.ClassUtils;
 import org.yugzan.account.EnableAccountManager;
 
 @Configuration
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter implements ImportAware,  BeanClassLoaderAware{
 
 	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 	
-	private String account_name = "user";
+	private String account_name = Web.USER;
 	
-	private String account_password = "password";
+	private String account_password = Web.PW;
 	
-	private String account_role = "USER";
+	private String account_role = Web.ROLE;
 	
     private ClassLoader beanClassLoader;
     
@@ -32,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		auth
 		.inMemoryAuthentication()
 			.withUser(account_name).password(account_password).roles(account_role);
+        logger.error("inMemoryAuthentication :{}",account_name);
 	}
 
 	@Override
@@ -61,10 +65,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
                 enableAccountManagerAttrs = AnnotationAttributes.fromMap(enableAccountManagerAttrMap);
             }
         }// is null
-        account_name = Optional.of(enableAccountManagerAttrs.getString("user")).orElse("user");
-        account_password = Optional.of(enableAccountManagerAttrs.getString("pw")).orElse("user");
-        account_role = Optional.of(enableAccountManagerAttrs.getString("role")).orElse("user");
-        logger.debug("logger :{}",account_name);
+        account_name = Optional.of(enableAccountManagerAttrs.getString("user")).orElse(Web.USER);
+        account_password = Optional.of(enableAccountManagerAttrs.getString("pw")).orElse(Web.PW);
+        account_role = Optional.of(enableAccountManagerAttrs.getString("role")).orElse(Web.ROLE);
 
 	}
     public void setBeanClassLoader(ClassLoader classLoader) {
