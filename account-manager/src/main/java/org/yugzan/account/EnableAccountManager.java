@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.yugzan.account.config.SecurityConfiguration;
 import org.yugzan.account.config.Web;
 import org.yugzan.account.config.WebConfiguration;
+import org.yugzan.account.db.MySQLConfigutation;
 
 /***
  *  Override and extends {@link #WebSecurityConfigurerAdapter} and {@link #WebMvcConfigurerAdapter}
@@ -28,7 +29,7 @@ import org.yugzan.account.config.WebConfiguration;
 @EnableWebMvc
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Import({SecurityConfiguration.class, WebConfiguration.class})
+@Import({SecurityConfiguration.class, WebConfiguration.class, MySQLConfigutation.class})
 @Configuration
 public @interface EnableAccountManager {
 	boolean value() default false;

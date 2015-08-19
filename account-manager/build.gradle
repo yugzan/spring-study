@@ -1,7 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '1.2.5.RELEASE'
-        isLibrary = true
+        isLibrary = false
     }
     repositories {
         mavenCentral()
@@ -55,6 +55,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
+    runtime('mysql:mysql-connector-java:5.1.6')
     //compile("org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}")
 }
 

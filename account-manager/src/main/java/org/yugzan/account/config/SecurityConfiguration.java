@@ -1,11 +1,16 @@
 package org.yugzan.account.config;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportAware;
 import org.springframework.core.annotation.AnnotationAttributes;
@@ -14,6 +19,12 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.util.ClassUtils;
 import org.yugzan.account.EnableAccountManager;
 
@@ -30,12 +41,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
 	
     private ClassLoader beanClassLoader;
     
+    @Autowired
+    private DataSource datasource;
+    
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth
-		.inMemoryAuthentication()
-			.withUser(account_name).password(account_password).roles(account_role);
-        logger.error("inMemoryAuthentication :{}",account_name);
+        JdbcUserDetailsManager userDetailsService = new JdbcUserDetailsManager();
+        userDetailsService.setDataSource(datasource);
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
+        
+        auth.jdbcAuthentication().dataSource(datasource);
+        
+        if(!userDetailsService.userExists(account_name)) {
+            List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+            authorities.add(new SimpleGrantedAuthority(account_role));
+            User userDetails = new User(account_name, encoder.encode(account_password), authorities);
+            userDetailsService.createUser(userDetails);
+        }
 	}
 
 	@Override
@@ -49,6 +73,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
 		.and()
 		.httpBasic();
 	}
+
 
 	public void setImportMetadata(AnnotationMetadata importMetadata) {
         Map<String, Object> enableAccountManagerAttrMap = importMetadata.getAnnotationAttributes(EnableAccountManager.class.getName());

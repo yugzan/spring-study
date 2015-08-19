@@ -33,7 +33,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter implements ImportA
 		.addResourceLocations("classpath:/admin/");
 		
 	}
-
+	
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
 		this.beanClassLoader = classLoader;
