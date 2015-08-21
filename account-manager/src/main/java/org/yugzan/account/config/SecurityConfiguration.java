@@ -40,14 +40,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-		.authorizeRequests()
-		.anyRequest()
-		.authenticated()
-		.and()
-		.formLogin()
-		.and()
-		.httpBasic();
+		http.formLogin()
+				.and()
+				.logout()
+				.and()
+				.authorizeRequests()
+				.antMatchers("/index.html", "/home.html", "/login.html","/access", "/logout").permitAll() // for anonymous user
+				.anyRequest().authenticated().and().csrf().disable();
 	}
 
 	public void setImportMetadata(AnnotationMetadata importMetadata) {

@@ -6,7 +6,7 @@ import org.yugzan.account.EnableAccountManager;
 
 @SpringBootApplication
 //@EnableAccountManager(user = "test" , pw = "test" , staticContent = "classpath:/webs/")
-//@EnableAccountManager
+@EnableAccountManager
 public class AccountManagerApplication {
     public static void main(String[] args) {
         SpringApplication.run(AccountManagerApplication.class, args);

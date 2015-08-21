@@ -11,6 +11,7 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.yugzan.account.EnableAccountManager;
 
@@ -33,6 +34,16 @@ public class WebConfiguration extends WebMvcConfigurerAdapter implements ImportA
 		.addResourceLocations("classpath:/admin/");
 		
 	}
+	
+
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		String uri = resource_handler.replace("*", "");
+		registry.addViewController("/").setViewName("redirect:"+uri+"index.html");
+		registry.addViewController("/login").setViewName("redirect:"+uri+"index.html");
+		registry.addViewController("/logout").setViewName("redirect:"+uri+"index.html");
+	}
+
 
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
