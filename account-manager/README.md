@@ -12,13 +12,13 @@ How to Start
 
 > >spring.datasource.url=jdbc:mysql://localhost:3306/cork (database name)
 
-> spring.datasource.username=root 
+> >spring.datasource.username=root 
 
-> spring.datasource.password=password
+> >spring.datasource.password=password
 
-> spring.datasource.driverClassName=com.mysql.jdbc.Driver
+> >spring.datasource.driverClassName=com.mysql.jdbc.Driver
 
-> spring.jpa.hibernate.dialect= org.hibernate.dialect.MySQLInnoDBDialect
+> >spring.jpa.hibernate.dialect= org.hibernate.dialect.MySQLInnoDBDialect
 
 ####Step 3.
 > **[$~/ProjectPath/]** gradle clean build
