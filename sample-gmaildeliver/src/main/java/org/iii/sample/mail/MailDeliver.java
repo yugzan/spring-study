@@ -23,6 +23,7 @@ import ch.qos.logback.classic.Logger;
  */
 
 public class MailDeliver {
+
     private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
     private Session session;
     private Message message;
@@ -51,6 +52,7 @@ public class MailDeliver {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.port", port);
+
 
         session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -186,4 +188,5 @@ public class MailDeliver {
         }
         
     }
+
 }
