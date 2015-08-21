@@ -2,10 +2,19 @@ spring-study
 ============
 In This Project
 memos about the study sample code.
+-------------------
+####account-manager
+-------------------
+Spring Boot integrate account manager.
 
-============
-sample gmail deliver
+[Basic](https://github.com/yugzan/spring-study/tree/develop/account-manager)
+[JDBC(MySQL)](https://github.com/yugzan/spring-study/tree/jdbc-version/account-manager)
+[Jongo(MongoDB)](https://github.com/yugzan/spring-study/tree/jongo-version/account-manager)
 
+
+-------------------
+####sample gmail deliver
+-------------------
 This is a mail deliver using Google mail and Spring boot Framework.
 
 
