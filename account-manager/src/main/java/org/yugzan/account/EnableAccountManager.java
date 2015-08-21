@@ -3,7 +3,6 @@ package org.yugzan.account;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,6 +11,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.yugzan.account.config.SecurityConfiguration;
 import org.yugzan.account.config.Web;
 import org.yugzan.account.config.WebConfiguration;
+import org.yugzan.account.db.JongoDBConfiguration;
+import org.yugzan.account.db.JongoDBUserDetailsService;
 
 /***
  *  Override and extends {@link #WebSecurityConfigurerAdapter} and {@link #WebMvcConfigurerAdapter}
@@ -28,13 +29,10 @@ import org.yugzan.account.config.WebConfiguration;
 @EnableWebMvc
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Import({SecurityConfiguration.class, WebConfiguration.class})
+@Import({JongoDBConfiguration.class,JongoDBUserDetailsService.class, SecurityConfiguration.class, WebConfiguration.class})
 @Configuration
 public @interface EnableAccountManager {
 	boolean value() default false;
-	String user() default Web.USER;
-	String pw()   default Web.PW;
-	String role() default Web.ROLE;
 	String resourceUri() default Web.RESOURCE_URI;
 	String staticContent() default Web.RESOURCE_CLASS_PATH;
 }

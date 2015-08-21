@@ -1,7 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '1.2.5.RELEASE'
-        isLibrary = true
+        isLibrary = false
     }
     repositories {
         mavenCentral()
@@ -20,7 +20,7 @@ apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management' 
 
 group = 'org.yugzan'
-version = '0.0.2-SNAPSHOT'
+version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -55,6 +55,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+	compile ("org.mongodb:mongo-java-driver:2.13.2")
+	compile ("org.jongo:jongo:1.2")    
     //compile("org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}")
 }
 

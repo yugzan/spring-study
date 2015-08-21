@@ -1,5 +1,6 @@
 package org.yugzan.account.config;
 
+
 /**
  * @author yongzan
  * @date 2015/8/14

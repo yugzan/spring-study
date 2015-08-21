@@ -1,0 +1,9 @@
+{
+  "name": "spring-security-boot-mongodb-client-tools",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "mongodb": "1.4.x",
+    "moment": "*"
+  }
+}
