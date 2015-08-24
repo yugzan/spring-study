@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportAware;
 import org.springframework.core.annotation.AnnotationAttributes;
@@ -16,26 +17,32 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.util.ClassUtils;
 import org.yugzan.account.EnableAccountManager;
+import org.yugzan.account.db.service.MongoDBUserDetailsService;
+
+
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter implements ImportAware,  BeanClassLoaderAware{
 
 	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 	
+	@Deprecated
 	private String account_name = Web.USER;
-	
+	@Deprecated
 	private String account_password = Web.PW;
-	
+	@Deprecated
 	private String account_role = Web.ROLE;
 	
     private ClassLoader beanClassLoader;
     
+    @Autowired
+    private MongoDBUserDetailsService userDetailsService;
+    
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth
-		.inMemoryAuthentication()
-			.withUser(account_name).password(account_password).roles(account_role);
-        logger.error("inMemoryAuthentication :{}",account_name);
+		
+		auth.userDetailsService(userDetailsService);
+        logger.error("userDetailsService :{}",userDetailsService.toString());
 	}
 
 	@Override
