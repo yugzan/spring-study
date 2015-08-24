@@ -1,4 +1,4 @@
-Account Manager for HttpSecurity Basic
+Account Manager for Spring Data MongoDB
 =============
 
 
@@ -13,8 +13,10 @@ How to Start
 Usage
 -------------------
 ####annotation
+###//TODO
+
 <code>
-@EnableAccountManager(user = "test" , pw = "test", role="USER", resourceUri = {"/org/\*\*"} ,staticContent = {"classpath:/web/" }  )
+@EnableAccountManager(resourceUri = {"/org/\*\*"} ,staticContent = {"classpath:/web/" }  )
 </code>
 
 Note
