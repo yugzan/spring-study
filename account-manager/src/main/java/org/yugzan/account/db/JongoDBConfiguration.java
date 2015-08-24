@@ -4,6 +4,9 @@ import java.net.UnknownHostException;
 
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,20 +23,23 @@ import com.mongodb.MongoException;
 
 @Configuration
 public class JongoDBConfiguration {
-
-	public String host = "127.0.0.1";
-
-	public int port = 27017;
-
-	public String dbname = "test";
+	private static final Logger logger = LoggerFactory.getLogger(JongoDBConfiguration.class);
 	
-	public String dbcollection = "users";
+	@Value("${jongo.host}")
+	public String host;
+	@Value("${jongo.port}")
+	public int port = 27017;
+	@Value("${jongo.dbname}")
+	public String dbname;
+	@Value("${jongo.dbcollection}")
+	public String dbcollection;
 
 	@Bean
 	public Jongo jongo() {
 		DB db;
 		try {
 			db = new MongoClient(host, port).getDB(dbname);
+			logger.info("HOST:{},PORT:{}", host, port);
 		} catch (UnknownHostException e) {
 			throw new MongoException("Connection error : ", e);
 		}

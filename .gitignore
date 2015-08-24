@@ -2,7 +2,7 @@
 
 *.war
 *.ear
-
+**/dragon/
 .gradle
 .gradletasknamecache
 maven-publish.gradle
