@@ -1,8 +1,6 @@
 package org.yugzan.account.config;
 
 import java.util.Map;
-import java.util.Optional;
-
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportAware;
@@ -17,18 +15,19 @@ import org.yugzan.account.EnableAccountManager;
 
 @Configuration
 public class WebConfiguration extends WebMvcConfigurerAdapter implements ImportAware,  BeanClassLoaderAware{
-    private String resource_handler = Web.RESOURCE_URI;
+    private String[] resource_handler = {Web.RESOURCE_URI};
     
-    private String resource_location = Web.RESOURCE_CLASS_PATH;
+    private String[] resource_location = {Web.RESOURCE_CLASS_PATH};
 	
 	private ClassLoader beanClassLoader;
     
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		
-		registry
-		.addResourceHandler(resource_handler)
-		.addResourceLocations(resource_location);
+		for(int point = 0 ;point<resource_handler.length; point ++) {
+			registry
+			.addResourceHandler(resource_handler[point])
+			.addResourceLocations(resource_location[point]);
+		}
 		registry
 		.addResourceHandler("/admin/**")
 		.addResourceLocations("classpath:/admin/");
@@ -38,7 +37,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter implements ImportA
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		String uri = resource_handler.replace("*", "");
+		String uri = resource_handler[0].replace("*", "");
 		registry.addViewController("/").setViewName("redirect:"+uri+"index.html");
 		registry.addViewController("/login").setViewName("redirect:"+uri+"index.html");
 		registry.addViewController("/logout").setViewName("redirect:"+uri+"index.html");
@@ -67,8 +66,12 @@ public class WebConfiguration extends WebMvcConfigurerAdapter implements ImportA
             }
         }// is null
 		
-        resource_handler =  Optional.of(enableAccountManagerAttrs.getString("resourceUri")).orElse(Web.RESOURCE_URI);
-        resource_location =  Optional.of(enableAccountManagerAttrs.getString("staticContent")).orElse(Web.RESOURCE_CLASS_PATH);
+        String []uris = enableAccountManagerAttrs.getStringArray("resourceUri");
+        String []paths = enableAccountManagerAttrs.getStringArray("staticContent");
+        if((uris.length == paths.length) && uris.length>0 && paths.length >0) {
+            resource_handler =  uris;
+            resource_location = paths;
+        }
 	}
 
 }

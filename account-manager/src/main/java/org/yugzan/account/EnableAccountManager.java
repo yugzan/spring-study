@@ -32,9 +32,31 @@ import org.yugzan.account.config.WebConfiguration;
 @Configuration
 public @interface EnableAccountManager {
 	boolean value() default false;
+	/**
+	 * Default user {@link Web}
+	 * */
 	String user() default Web.USER;
+	/**
+	 * Default password {@link Web}
+	 * */
 	String pw()   default Web.PW;
+	/**
+	 * Default role {@link Web}
+	 * */
 	String role() default Web.ROLE;
-	String resourceUri() default Web.RESOURCE_URI;
-	String staticContent() default Web.RESOURCE_CLASS_PATH;
+	/**
+	 * String [] ex . {"/web/**" , "/js/**"}<br/>
+	 * Auto Redirect is mapping to array first item. ex ."web/index.html" <br/>
+	 * Default resourceUri {@link Web}<br/>
+	 * <br/>
+	 * **Notice** resourceUri items size need equivalent  with staticContent items
+	 * */
+	String [] resourceUri() default Web.RESOURCE_URI;
+	/**
+	 * String [] ex . {"classpath:/web/" , "classpath:/js/"} <br/>
+	 * Default staticContent {@link Web}<br/>
+	 * <br/>
+	 * **Notice** resourceUri items size need equivalent  with staticContent items
+	 * */
+	String [] staticContent() default Web.RESOURCE_CLASS_PATH;
 }
