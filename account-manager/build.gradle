@@ -1,7 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '1.2.5.RELEASE'
-        isLibrary = false
+        isLibrary = true
     }
     repositories {
         mavenCentral()
@@ -20,7 +20,7 @@ apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management' 
 
 group = 'org.yugzan'
-version = '0.0.2-SNAPSHOT'
+version = '0.0.3-SNAPSHOT'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 

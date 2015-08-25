@@ -3,14 +3,18 @@ package org.yugzan.account;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.yugzan.account.config.AppConfiguration;
 import org.yugzan.account.config.SecurityConfiguration;
 import org.yugzan.account.config.Web;
 import org.yugzan.account.config.WebConfiguration;
+import org.yugzan.account.db.service.MongoDBUserDetailsService;
+
 
 /***
  *  Override and extends {@link #WebSecurityConfigurerAdapter} and {@link #WebMvcConfigurerAdapter}
@@ -27,11 +31,12 @@ import org.yugzan.account.config.WebConfiguration;
 @EnableWebMvc
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-//@EnableAutoConfiguration
-//@ComponentScan("org.yugzan.account.*")
-@Import({SecurityConfiguration.class, WebConfiguration.class})
-
-
+@Import({
+	AppConfiguration.class,
+	MongoDBUserDetailsService.class,
+	SecurityConfiguration.class,
+	WebConfiguration.class
+})
 @Configuration
 public @interface EnableAccountManager {
 	boolean value() default false;

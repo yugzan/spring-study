@@ -3,14 +3,12 @@ package org.yugzan.account.db.domain;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -19,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * 
  */
 
-@Document(collection = "users")
+@Document(collection = "users" )
 public class Account implements UserDetails, CredentialsContainer {	
 	/**
 	 * 

@@ -13,6 +13,10 @@ How to Start
 Usage
 -------------------
 ####annotation
+ must to load class path "org.yugzan.account"  on main.
+<code>
+**@ComponentScan("org.yugzan.account")**
+</code>
 <code>
 @EnableAccountManager(user = "test" , pw = "test", role="USER", resourceUri = {"/org/\*\*"} ,staticContent = {"classpath:/web/" }  )
 </code>

@@ -17,7 +17,7 @@ import com.mongodb.WriteConcern;
  */
 
 @Configuration
-@EnableMongoRepositories(basePackages = "spring.security.boot.mongodb.repo")
+@EnableMongoRepositories(basePackages = "org.yugzan.account")
 public class MongoDBConfiguration extends AbstractMongoConfiguration {
 
 	@Value("${mongo.host}")
@@ -28,7 +28,12 @@ public class MongoDBConfiguration extends AbstractMongoConfiguration {
 	
 	@Value("${mongo.dbname}")
 	private String dbname;
-
+	/**
+	*TODO load collection name at application.properties.
+	**/
+	@Value("${mongo.dbcollection}")
+	private String dbcollection;
+	
 	@Override
 	protected String getDatabaseName() {
 		return dbname;
