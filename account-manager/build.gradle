@@ -1,7 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '1.2.5.RELEASE'
-        isLibrary = true
+        isLibrary = false
     }
     repositories {
         mavenCentral()
@@ -10,20 +10,22 @@ buildscript {
 	    maven { url "http://repo.spring.io/snapshot" }
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE")
     }
 }
-apply from: 'maven-publish.gradle'
+//apply from: 'maven-publish.gradle'
 apply plugin: 'java'
-apply plugin: 'spring-boot' 
-apply plugin: 'io.spring.dependency-management' 
+apply plugin: 'spring-boot'
+apply plugin: 'io.spring.dependency-management'
 
 group = 'org.yugzan'
 version = '0.0.3-SNAPSHOT'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
 /*
 jar {
     baseName = 'account-manager'
@@ -40,10 +42,10 @@ artifacts { archives sourcesJar }
 
 repositories {
   	mavenLocal()
-	maven {
-	  name "nexus maven proxy"
-	  url "http://140.92.71.209:8080/nexus/content/groups/public"
-	}
+  	/*maven {
+  	  name "nexus maven proxy"
+  	  url "http://140.92.71.209:8080/nexus/content/groups/public"
+  	}*/
     mavenCentral()
     maven { url "http://repo.spring.io/release" }
     maven { url "http://repo.spring.io/milestone" }

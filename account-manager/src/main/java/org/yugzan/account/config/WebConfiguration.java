@@ -8,12 +8,14 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.ClassUtils;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.yugzan.account.EnableAccountManager;
 
 @Configuration
+@EnableWebMvc
 public class WebConfiguration extends WebMvcConfigurerAdapter implements ImportAware,  BeanClassLoaderAware{
     private String[] resource_handler = {Web.RESOURCE_URI};
     
@@ -37,10 +39,8 @@ public class WebConfiguration extends WebMvcConfigurerAdapter implements ImportA
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		String uri = resource_handler[0].replace("*", "");
-		registry.addViewController("/").setViewName("redirect:"+uri+"index.html");
-		registry.addViewController("/login").setViewName("redirect:"+uri+"index.html");
-		registry.addViewController("/logout").setViewName("redirect:"+uri+"index.html");
+		String uri = resource_handler[0].replace("*", "")+ "index.html";
+		registry.addRedirectViewController("/", uri);
 	}
 
 

@@ -12,7 +12,7 @@ import org.yugzan.account.EnableAccountManager;
  * */
 
 @SpringBootApplication
-@ComponentScan("org.yugzan.account")
+@ComponentScan({"org.test.account","org.yugzan.account"})
 @EnableAccountManager(resourceUri = {"/org/**"} ,staticContent = {"classpath:/web/" }  )
 public class AccountManagerApplication {
     public static void main(String[] args) {

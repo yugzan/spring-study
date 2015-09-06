@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,18 +18,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * 
  */
 
-@Document(collection = "users" )
-public class Account implements UserDetails, CredentialsContainer {	
-	/**
-	 * 
-	 */
+@Document
+public class Account extends AbstractDocument implements UserDetails, CredentialsContainer {	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final String USERNAME = "username";
 	public static final String PASSWORD = "password";
 	public static final String ROLES = "roles";
 
-	private String id;
+
 	private String username;
 	private String password;
 	private boolean accountNonExpired;
@@ -38,9 +37,33 @@ public class Account implements UserDetails, CredentialsContainer {
 
 	private List<String> roles;
 	
+	/**
+	 * @param username
+	 * @param password
+	 * @param roles
+	 */
+	
+	@PersistenceConstructor
+	public Account(String username, String password, List<String> roles) throws Exception {
+		this(username, password, roles, true, true, true, true);
+	}
+
+	public Account(String username, String password, List<String> roles,
+			boolean accountNonExpired, boolean accountNonLocked,
+			boolean credentialsNonExpired, boolean enabled) throws Exception {
+		this.username = username;
+		this.password = password;
+		this.roles = roles;
+		this.accountNonExpired = accountNonExpired;
+		this.accountNonLocked = accountNonLocked;
+		this.credentialsNonExpired = credentialsNonExpired;
+		this.enabled = enabled;
+	}
+
 	@Override
 	public void eraseCredentials() {
 		password = null;
+		 
 	}
 
 	@JsonIgnore
@@ -81,14 +104,6 @@ public class Account implements UserDetails, CredentialsContainer {
 	@Override
 	public boolean isEnabled() {
 		return enabled;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public void setUsername(String username) {

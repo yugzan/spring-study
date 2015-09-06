@@ -1,5 +1,7 @@
 package org.yugzan.account.config;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -13,15 +15,20 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.util.ClassUtils;
 import org.yugzan.account.EnableAccountManager;
+import org.yugzan.account.db.domain.Account;
 import org.yugzan.account.db.service.MongoDBUserDetailsService;
 
 
 
 @Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true ,securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter implements ImportAware,  BeanClassLoaderAware{
 
 	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
@@ -42,6 +49,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		
 		auth.userDetailsService(userDetailsService);
+		if (!userDetailsService.userExists("admin")) {
+			List<String> roles = new ArrayList<String>();
+			roles.add("ROLE_ADMIN");
+			userDetailsService.createUser(new Account("admin", "pass", roles));
+		}
         logger.error("userDetailsService :{}",userDetailsService.toString());
 	}
 

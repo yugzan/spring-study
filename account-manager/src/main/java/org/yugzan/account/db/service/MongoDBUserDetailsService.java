@@ -1,9 +1,6 @@
 package org.yugzan.account.db.service;
 
 import java.util.Optional;
-
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.User;
@@ -15,8 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.yugzan.account.db.domain.Account;
 import org.yugzan.account.db.repo.AccountRepository;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 /**
  * @author yongzan
@@ -27,20 +22,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 @Transactional
 public class MongoDBUserDetailsService  implements UserDetailsManager{
-	
-	  @Autowired
-	  private AccountRepository accountRepo;
 
-	  @Resource(name = "objectMapper")
-	  private ObjectMapper om;
-	
+	@Autowired
+	private AccountRepository repo;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 	    Optional<UserDetails> loadedUser;
 	    try {
-	      Account account = accountRepo.findByUsername(username);
-	      System.out.println(account.toString());
+	      Account account = repo.findByUsername(username);
+
 	      loadedUser =
 	          Optional.of(new User(account.getUsername(), account.getPassword(), account.getAuthorities() ));
 	      if (!loadedUser.isPresent()) {
@@ -57,8 +48,9 @@ public class MongoDBUserDetailsService  implements UserDetailsManager{
 
 	@Override
 	public void createUser(UserDetails user) {
-		// TODO Auto-generated method stub
-		
+		if (!userExists(user.getUsername())){
+			repo.insert((Account) user);
+		}
 	}
 
 	@Override
@@ -81,8 +73,7 @@ public class MongoDBUserDetailsService  implements UserDetailsManager{
 
 	@Override
 	public boolean userExists(String username) {
-		// TODO Auto-generated method stub
-		return false;
+		return (Optional.ofNullable(repo.findByUsername(username)).isPresent()) ? true : false;
 	}
 
 }
