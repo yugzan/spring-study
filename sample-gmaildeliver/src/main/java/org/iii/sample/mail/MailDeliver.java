@@ -1,7 +1,9 @@
 package org.iii.sample.mail;
 
-import java.util.ArrayList;
+
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.stream.Collectors;
 import javax.mail.Authenticator;
@@ -13,8 +15,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.slf4j.LoggerFactory;
-import com.google.common.base.Preconditions;
 import ch.qos.logback.classic.Logger;
+
 
 
 /**
@@ -42,11 +44,13 @@ public class MailDeliver {
         this.username = username;
         this.password = password;
     }
-    public void setRecipients(ArrayList<String> recipientsArray){
-        Preconditions.checkNotNull(host);
-        Preconditions.checkNotNull(port);
-        Preconditions.checkNotNull(username);
-        
+
+    public void setRecipients(Collection<? extends String> recipientsArray){
+        Objects.requireNonNull(host, "host is null");
+        Objects.requireNonNull(port, "port is null");
+        Objects.requireNonNull(username, "username is null");
+        Objects.requireNonNull(recipientsArray, "recipients is null");
+        //set properties
         Properties props = new Properties();
         props.put("mail.smtp.host", host);
         props.put("mail.smtp.auth", "true");
@@ -60,13 +64,11 @@ public class MailDeliver {
             }
         });
 
-        // JDK8 Test
-
+        // convent collection String to InternetAddress
         List<InternetAddress> vers = recipientsArray.stream().map( receipt -> {
             try {
                 return new InternetAddress(receipt);
             } catch (Exception e) {
-                e.printStackTrace();
                 return null;
             }
         })
@@ -79,7 +81,7 @@ public class MailDeliver {
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO, vers.toArray(new InternetAddress[vers.size()]));
         } catch (MessagingException e) {
-            e.printStackTrace();
+            logger.error("Messaging Error:{}",e.getMessage());
         } 
         
     }
