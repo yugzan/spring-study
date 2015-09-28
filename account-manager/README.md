@@ -15,11 +15,13 @@ Usage
 ####annotation
 
 The annotation @UseBasicDB will load about org.yugzan.account.basic configuration.
+
 <code>
 **@UseBasicDB**
 </code>
 
 The @UseMongoDB annotation will load about org.yugzan.account.mongo configuration.
+
 <code>
 **@UseMongoDB**
 </code>
@@ -27,12 +29,13 @@ The @UseMongoDB annotation will load about org.yugzan.account.mongo configuratio
 The @AccountManagerApplication merge @ComponentScan and @EnableAutoConfiguration support basePackages.
 * resourceUri	: the resource's uri. 
 * staticContent	: the mapping path.
-<code>
+
+```java
 @AccountManagerApplication(
 		basePackages = { "org.test.account", UseDBClassPath.MONGO}, 
 		resourceUri = 	{"/myuri/**" }, 
 		staticContent = { "classpath:/web/" })
-</code>
+```
 
 Note
 -------------
