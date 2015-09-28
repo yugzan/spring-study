@@ -1,4 +1,4 @@
-package org.yugzan.account.db;
+package org.yugzan.account.mongo;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +17,8 @@ import com.mongodb.WriteConcern;
  */
 
 @Configuration
-@EnableMongoRepositories(basePackages = "org.yugzan.account")
-public class MongoDBConfiguration extends AbstractMongoConfiguration {
+@EnableMongoRepositories(basePackages = "org.yugzan.account.mongo")
+public class MongoConfiguration extends AbstractMongoConfiguration {
 
 	@Value("${mongo.host}")
 	private String host;
@@ -26,12 +26,12 @@ public class MongoDBConfiguration extends AbstractMongoConfiguration {
 	@Value("${mongo.port}")
 	private int port;
 	
-	@Value("${mongo.dbname}")
+	@Value("${mongo.dbname:manager}")
 	private String dbname;
 	/**
 	*TODO load collection name at application.properties.
 	**/
-	@Value("${mongo.dbcollection}")
+	@Value("${mongo.dbcollection:users}")
 	private String dbcollection;
 	
 	@Override

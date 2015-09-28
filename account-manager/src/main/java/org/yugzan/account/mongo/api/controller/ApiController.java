@@ -1,4 +1,4 @@
-package org.yugzan.account.db.api;
+package org.yugzan.account.mongo.api.controller;
 
 /**
  * @author  yugzan
@@ -7,6 +7,10 @@ package org.yugzan.account.db.api;
  */
 public interface ApiController {
 	public  String API_PATH = "/api/v1";
+	/**
+	 * APIs Login EndPoint
+	 * */
+	public  String AUTH_URL = API_PATH + "/auth";
 	/**
 	 * only print own user information
 	 * */

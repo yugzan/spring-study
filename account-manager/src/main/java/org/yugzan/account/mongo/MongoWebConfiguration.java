@@ -1,4 +1,4 @@
-package org.yugzan.account.config;
+package org.yugzan.account.mongo;
 
 import java.util.Map;
 import org.springframework.beans.factory.BeanClassLoaderAware;
@@ -12,14 +12,15 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.yugzan.account.EnableAccountManager;
+import org.yugzan.account.AccountManagerApplication;
+import org.yugzan.account.DefaultAnnotationValues;
 
 @Configuration
 @EnableWebMvc
-public class WebConfiguration extends WebMvcConfigurerAdapter implements ImportAware,  BeanClassLoaderAware{
-    private String[] resource_handler = {Web.RESOURCE_URI};
+public class MongoWebConfiguration extends WebMvcConfigurerAdapter implements ImportAware,  BeanClassLoaderAware{
+    private String[] resource_handler = {DefaultAnnotationValues.RESOURCE_URI};
     
-    private String[] resource_location = {Web.RESOURCE_CLASS_PATH};
+    private String[] resource_location = {DefaultAnnotationValues.RESOURCE_CLASS_PATH};
 	
 	private ClassLoader beanClassLoader;
     
@@ -51,13 +52,13 @@ public class WebConfiguration extends WebMvcConfigurerAdapter implements ImportA
 
 	@Override
 	public void setImportMetadata(AnnotationMetadata importMetadata) {
-        Map<String, Object> enableAccountManagerAttrMap = importMetadata.getAnnotationAttributes(EnableAccountManager.class.getName());
+        Map<String, Object> enableAccountManagerAttrMap = importMetadata.getAnnotationAttributes(AccountManagerApplication.class.getName());
         AnnotationAttributes enableAccountManagerAttrs = AnnotationAttributes.fromMap(enableAccountManagerAttrMap);
         if(enableAccountManagerAttrs == null) {
             // search parent classes
             Class<?> currentClass = ClassUtils.resolveClassName(importMetadata.getClassName(), beanClassLoader);
             for(Class<?> classToInspect = currentClass ;classToInspect != null; classToInspect = classToInspect.getSuperclass()) {
-            	EnableAccountManager enableAccountManagerAnnotation = AnnotationUtils.findAnnotation(classToInspect, EnableAccountManager.class);
+            	AccountManagerApplication enableAccountManagerAnnotation = AnnotationUtils.findAnnotation(classToInspect, AccountManagerApplication.class);
                 if(enableAccountManagerAnnotation == null) {
                     continue;
                 }

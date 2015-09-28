@@ -1,4 +1,4 @@
-package org.yugzan.account.config;
+package org.yugzan.account.mongo;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

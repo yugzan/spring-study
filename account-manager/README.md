@@ -1,4 +1,4 @@
-Account Manager for Spring Data MongoDB
+Account Manager for Spring Basic, MongoDB(Mix)
 =============
 
 
@@ -13,15 +13,27 @@ How to Start
 Usage
 -------------------
 ####annotation
-must to load class path "org.yugzan.account"  on main.
+
+The annotation @UseBasicDB will load about org.yugzan.account.basic configuration.
 <code>
-**@ComponentScan("org.yugzan.account")**
+**@UseBasicDB**
 </code>
 
+The @UseMongoDB annotation will load about org.yugzan.account.mongo configuration.
 <code>
-@EnableAccountManager(resourceUri = {"/org/\*\*"} ,staticContent = {"classpath:/web/" }  )
+**@UseMongoDB**
+</code>
+
+The @AccountManagerApplication merge @ComponentScan and @EnableAutoConfiguration support basePackages.
+* resourceUri	: the resource's uri. 
+* staticContent	: the mapping path.
+<code>
+@AccountManagerApplication(
+		basePackages = { "org.test.account", UseDBClassPath.MONGO}, 
+		resourceUri = 	{"/myuri/**" }, 
+		staticContent = { "classpath:/web/" })
 </code>
 
 Note
 -------------
-A template for Spring Boot Using  Spring Data MongoDB
+A template for Spring Boot Using  Spring Basic, MongoDB(Mix)

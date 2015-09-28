@@ -42,10 +42,6 @@ artifacts { archives sourcesJar }
 
 repositories {
   	mavenLocal()
-  	/*maven {
-  	  name "nexus maven proxy"
-  	  url "http://140.92.71.209:8080/nexus/content/groups/public"
-  	}*/
     mavenCentral()
     maven { url "http://repo.spring.io/release" }
     maven { url "http://repo.spring.io/milestone" }

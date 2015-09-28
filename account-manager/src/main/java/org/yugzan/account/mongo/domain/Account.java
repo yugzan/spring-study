@@ -1,4 +1,4 @@
-package org.yugzan.account.db.domain;
+package org.yugzan.account.mongo.domain;
 
 import java.util.Collection;
 import java.util.HashSet;

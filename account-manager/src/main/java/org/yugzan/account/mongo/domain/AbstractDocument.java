@@ -1,4 +1,4 @@
-package org.yugzan.account.db.domain;
+package org.yugzan.account.mongo.domain;
 
 import java.math.BigInteger;
 
@@ -18,8 +18,8 @@ public class AbstractDocument {
 	 * 
 	 * @return the id
 	 */
-	public BigInteger getId() {
-		return id;
+	public String getId() {
+		return id.toString();
 	}
 
 	/* 
@@ -39,7 +39,7 @@ public class AbstractDocument {
 
 		AbstractDocument that = (AbstractDocument) obj;
 
-		return this.id.equals(that.getId());
+		return this.id.equals(new BigInteger(that.getId()));
 	}
 
 	/* 

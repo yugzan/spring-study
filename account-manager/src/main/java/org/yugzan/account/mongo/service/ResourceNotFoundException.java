@@ -1,4 +1,4 @@
-package org.yugzan.account.db.service;
+package org.yugzan.account.mongo.service;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -1,7 +1,7 @@
-package org.yugzan.account.db.repo;
+package org.yugzan.account.mongo.repo;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.yugzan.account.db.domain.Account;
+import org.yugzan.account.mongo.domain.Account;
 
 /**
  * @author yongzan

@@ -1,14 +1,12 @@
-package org.yugzan.account.config;
+package org.yugzan.account;
 
 /**
  * @author yongzan
  * @date 2015/8/14
  * 
  */
-public interface Web {
-	String USER = "user";
-	String PW = "password";
-	String ROLE = "USER";
+public interface DefaultAnnotationValues {
+	String BASE_PACKAGES = "org.yugzan.account";
 	String RESOURCE_URI = "/web/**";
 	String RESOURCE_CLASS_PATH = "classpath:/web/";
 }

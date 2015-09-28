@@ -1,16 +1,15 @@
-package org.yugzan.account.db.service;
+package org.yugzan.account.mongo.service;
 
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.yugzan.account.db.domain.Account;
-import org.yugzan.account.db.repo.AccountRepository;
+import org.yugzan.account.mongo.domain.Account;
+import org.yugzan.account.mongo.repo.AccountRepository;
 
 
 /**
@@ -21,7 +20,7 @@ import org.yugzan.account.db.repo.AccountRepository;
 
 @Service
 @Transactional
-public class MongoDBUserDetailsService  implements UserDetailsManager{
+public class MongoUserDetailsService  implements UserDetailsManager{
 
 	@Autowired
 	private AccountRepository repo;
@@ -30,20 +29,20 @@ public class MongoDBUserDetailsService  implements UserDetailsManager{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 	    Optional<UserDetails> loadedUser;
 	    try {
-	      Account account = repo.findByUsername(username);
 
-	      loadedUser =
-	          Optional.of(new User(account.getUsername(), account.getPassword(), account.getAuthorities() ));
+	      loadedUser = Optional.ofNullable( repo.findByUsername(username) );
+	      
 	      if (!loadedUser.isPresent()) {
 	        throw new InternalAuthenticationServiceException(
 	            "UserDetailsService returned null, which is an interface contract violation");
 	      }
+	      
+		  return loadedUser.get();
 	    } catch (Exception repositoryProblem) {
-	      throw new InternalAuthenticationServiceException(repositoryProblem.getMessage(),
-	          repositoryProblem);
+	      throw new UsernameNotFoundException(repositoryProblem.getMessage());
 	    }
 
-	    return loadedUser.get();
+
 	}
 
 	@Override
