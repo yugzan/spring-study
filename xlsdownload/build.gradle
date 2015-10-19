@@ -1,0 +1,61 @@
+buildscript {
+    ext {
+        springBootVersion = '1.2.7.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot' 
+
+jar {
+    baseName = 'xlsdownload'
+    version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+    compile('org.springframework.boot:spring-boot-starter-web')
+	compile 'org.jxls:jxls:2.2.5'
+	compile 'org.jxls:jxls-poi:1.0.5'
+    testCompile('org.springframework.boot:spring-boot-starter-test') 
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.5'
+}
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+build.doFirst {
+    tasks.copyScripts.execute()
+    tasks.copyTemplates.execute()
+}
+task copyScripts(type: Copy) {
+    from 'src/main/scripts'
+    into "${buildDir}/libs/"
+
+    include '**/*.sh'
+    includeEmptyDirs = false
+
+    filter(ReplaceTokens, tokens: [NAME:project.name, VERSION: project.version])
+}
+task copyTemplates(type: Copy) {
+    from 'src/main/template'
+    into "${buildDir}/libs/template"
+
+    include '**/*'
+    includeEmptyDirs = false
+}
