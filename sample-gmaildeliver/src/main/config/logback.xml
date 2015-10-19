@@ -12,7 +12,7 @@
     ...
 
     -->
-    <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-/tmp}/tequila.log}"/>
+    <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-/tmp}/gmail-deliver.log}"/>
 
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
@@ -41,9 +41,6 @@
 
     <logger name="org.iii" level="DEBUG"/>
     <logger name="org.springframework" level="ERROR"/>
-    <logger name="org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver"
-            level="DEBUG"/>
-    <logger name="com.mongodb" level="ERROR"/>
     <logger name="org.eclipse.jetty" level="ERROR"/>
 
 </configuration>

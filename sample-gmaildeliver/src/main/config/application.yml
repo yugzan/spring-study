@@ -3,13 +3,8 @@ spring:
     active: development
 
 ---
-
 spring:
   profiles: production
-
----
-spring:
-  profiles: production-amazon
 
 maildeliver:
   host: smtp.gmail.com
@@ -26,12 +21,4 @@ maildeliver:
   username: name
   password: password
 ---
-spring:
-  profiles: development-i7
 
-maildeliver:
-  host: smtp.gmail.com
-  port: 587
-  username: name
-  password: password
----
