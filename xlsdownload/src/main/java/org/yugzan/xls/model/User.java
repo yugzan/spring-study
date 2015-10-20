@@ -10,10 +10,7 @@ public class User {
     private String name;
     private int age;
     private String time;
-    
-    
-    
-    
+
     public User(String name, int age) {
         super();
         this.name = name;

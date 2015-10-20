@@ -6,10 +6,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.jxls.common.Context;
 import org.jxls.template.SimpleExporter;
+import org.jxls.util.JxlsHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,7 +46,6 @@ public class ReportService {
     }
 
     private byte[] handleReport() throws Exception {
-        // Preconditions.checkNotNull(reports, "Report is empty");
 
         Optional<String> pwd = Optional.empty();
         try {
@@ -56,25 +60,62 @@ public class ReportService {
         String filePath =
                 String.format("%s%s%s%s", pwd.get(), templatePath, "builtin_template", fileNameExtension);
 
-        logger.error("TEST:{}", filePath);
+        logger.info("template path:{}", filePath);
 
+
+        List<User> users = Arrays.asList(new User("Tom", 24), new User("Joy", 15), new User("Nashito",20));
+        
         try (InputStream is = new BufferedInputStream(new FileInputStream(filePath));
                 OutputStream os = new ByteArrayOutputStream()) {
-            return testJXLSAPI(is, os);
-        } catch (IOException e) { // InvalidFormatException |
+            
+            return executeByGrid(is, os, users);
+            
+        } catch (IOException e) { 
             logger.error("generate faile with {}", e);
             throw new ServiceException(e);
         }
     }
-
-    private byte[] testJXLSAPI(InputStream is, OutputStream os) throws IOException {
+    /**
+     * This method is using model and SimpleExporter example.
+     * */
+    private byte[] executeByModel(InputStream is, OutputStream os, List<User> users) throws IOException {
         List<String> headers = Arrays.asList("Name", "Age", "Time");
-        List<User> data = Arrays.asList(new User("Tom", 24), new User("Joy", 15), new User("Nashito",20));
         SimpleExporter exporter = new SimpleExporter();
         // exporter.registerGridTemplate(is);
-        exporter.gridExport(headers, data, "name, age, time", os);
+        exporter.gridExport(headers, users, "name, age, time", os);
         logger.info("Complete");
         os.flush();
         return ((ByteArrayOutputStream) os).toByteArray();
+    }
+    
+    /**
+     * This method is convert model  to List<Object> .
+     * Or you can just use List<Object> put you want. Don't need model !!
+     * */
+    private  byte[] executeByGrid(InputStream is, OutputStream os, List<User> users)throws IOException {
+
+        List<List<Object>> data = convertModel(users);
+
+        Context context = new Context();
+        context.putVar("headers",  Arrays.asList("Name", "Age", "Time") );
+        context.putVar("data", data);
+        JxlsHelper.getInstance().processTemplate(is, os, context);
+        logger.info("Complete");
+        os.flush();
+        return ((ByteArrayOutputStream) os).toByteArray();
+    }
+
+    
+    private  List<List<Object>> convertModel(List<User> users) {
+        return users.stream()
+        .map( ReportService::convertModelToList )
+        .collect(Collectors.toList());
+    }
+    private  static List<Object> convertModelToList(User user){
+        List<Object> list = new ArrayList<>();
+        list.add(user.getName());
+        list.add(user.getAge());
+        list.add(user.getTime());
+        return list;
     }
 }
