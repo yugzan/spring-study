@@ -27,7 +27,7 @@ repositories {
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
     compile('org.springframework.boot:spring-boot-starter-web')
-	compile 'org.jxls:jxls:2.2.5'
+	compile 'org.jxls:jxls:2.2.7'
 	compile 'org.jxls:jxls-poi:1.0.5'
     testCompile('org.springframework.boot:spring-boot-starter-test') 
 }

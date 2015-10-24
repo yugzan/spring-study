@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -97,8 +98,13 @@ public class ReportService {
         List<List<Object>> data = convertModel(users);
 
         Context context = new Context();
+//        context.putVar("positions",  Arrays.asList("P1", "P2", "P3", "P4") );
+        context.putVar("since", OffsetDateTime.now());
+        context.putVar("until", OffsetDateTime.now().plusDays(30));
+        context.putVar("createtime", OffsetDateTime.now().toString());
+        context.putVar("location", "我的肚子");
         context.putVar("headers",  Arrays.asList("Name", "Age", "Time") );
-        context.putVar("data", data);
+        context.putVar("cells", data);
         JxlsHelper.getInstance().processTemplate(is, os, context);
         logger.info("Complete");
         os.flush();
