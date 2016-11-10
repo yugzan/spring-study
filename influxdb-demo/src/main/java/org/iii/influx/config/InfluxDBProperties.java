@@ -8,6 +8,7 @@ import com.google.common.base.MoreObjects;
 /**
  * @author yongzan
  * @date 2016/11/9
+ * @Ref https://github.com/miwurster/spring-data-influxdb
  */
 @ConfigurationProperties("database.influxdb")
 public class InfluxDBProperties {

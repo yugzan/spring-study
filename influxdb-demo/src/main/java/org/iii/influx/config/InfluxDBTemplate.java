@@ -13,6 +13,7 @@ import org.influxdb.dto.QueryResult;
 /**
  * @author yongzan
  * @date 2016/11/9
+ * @Ref https://github.com/miwurster/spring-data-influxdb
  */
 public class InfluxDBTemplate implements InfluxDBOperations<Point>{
     private InfluxDB influxDB;

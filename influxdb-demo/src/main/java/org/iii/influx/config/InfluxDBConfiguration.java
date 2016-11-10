@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author yongzan
  * @date 2016/11/9
+ * @Ref https://github.com/miwurster/spring-data-influxdb
  */
 @Configuration
 @ConditionalOnExpression("${database.influxdb.enable}")

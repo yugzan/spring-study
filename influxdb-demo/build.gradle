@@ -4,7 +4,6 @@ buildscript {
 	}
 	repositories {
         mavenLocal()
-        maven { url "http://140.92.71.209:8080/nexus/content/groups/public" }
         mavenCentral()
         maven { url "http://repo.spring.io/release" }
         maven { url "http://repo.spring.io/milestone" }
@@ -54,21 +53,16 @@ task copyScripts(type: Copy) {
 
 repositories {
     mavenLocal()
-    maven { url "http://140.92.71.209:8080/nexus/content/groups/public" }
     mavenCentral()
     maven { url "http://repo.spring.io/release" }
     maven { url "http://repo.spring.io/milestone" }
     maven { url "http://repo.spring.io/snapshot" }
 }
 
-
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web') 
 	compile 'org.springframework.boot:spring-boot-starter-actuator'
-// https://mvnrepository.com/artifact/org.influxdb/influxdb-java
-	compile group: 'org.influxdb', name: 'influxdb-java', version: '2.4'
-	// https://mvnrepository.com/artifact/com.github.miwurster/spring-data-influxdb
-//	compile group: 'com.github.miwurster', name: 'spring-data-influxdb', version: '1.4'
+	compile 'org.influxdb:influxdb-java:2.4'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.1'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.8.1'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.1'
