@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    active: production
+    
+---
+spring:
+  profiles: production
+
+database.influxdb:
+      enable: true
+      url: http://localhost:8086
+      username: admin
+      password: admin
+      database: SYSTEM
+      retention-policy: autogen
+    
+# http server port
+server:
+  port: 8080
+  
+---
