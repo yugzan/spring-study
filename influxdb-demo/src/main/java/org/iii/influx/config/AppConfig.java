@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 
 @Configuration
+@EnableScheduling
 public class AppConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(AppConfig.class);

@@ -43,15 +43,4 @@ public class PointController {
         return dbTemplate.query(query);
     }
 
-
-//    private Random random = new SecureRandom();
-//    private Point newPoint(String key) {
-//        return Point.measurement("cpu").time(System.currentTimeMillis(), TimeUnit.MICROSECONDS)
-//                .addField("idle", random.nextInt(100)).addField("user", random.nextInt(100))
-//                .addField(key, random.nextInt(1000)).addField("system", random.nextInt(100))
-//                .build();
-//    }
-
-
-
 }

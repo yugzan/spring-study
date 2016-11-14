@@ -35,6 +35,8 @@ public interface InfluxDBOperations<T> {
     
     QueryResult query(final Query query);
     
+    QueryResult query(final String queryString);
+    
     QueryResult query(final Query query, final TimeUnit timeUnit);
     /**
      * Drop the database.

@@ -90,6 +90,13 @@ public class InfluxDBTemplate implements InfluxDBOperations<Point>{
         return influxDB.query(query, timeUnit);
     }
 
+    @Override
+    public QueryResult query(String queryString) {
+         final String dbName = properties.getDatabase();
+        Query query = new Query("select count(*) from person ", dbName);
+        return influxDB.query(query);
+    }
+
     
     
 
