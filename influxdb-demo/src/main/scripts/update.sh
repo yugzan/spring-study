@@ -7,7 +7,7 @@ if [ -d "$srcFolder" ]; then
 	rm -rf $srcFolder
 fi
 
-git clone ssh://git@140.92.71.209/opt/git/cellar/tequila.git
+git clone ssh://git@{host-ip}/opt/git/spring-study/influxdb-demo.git
 
 cd $srcFolder && git checkout develop
 ./gradlew clean build -x test

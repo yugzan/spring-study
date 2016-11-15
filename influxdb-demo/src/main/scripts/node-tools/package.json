@@ -1,8 +1,8 @@
 {
   "name": "fake-data",
   "description": "fake-data",
-  "version": "0.1.1",
-  "author": "yc <ycheng@iii.org.tw>",
+  "version": "0.0.1",
+  "author": "name <email@org.tw>",
   "dependencies": {
     "request": "*",
     "optimist": "*",
