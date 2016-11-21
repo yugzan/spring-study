@@ -2,13 +2,14 @@ package org.iii.influx.config;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDB.ConsistencyLevel;
 import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
 import org.influxdb.dto.Query;
 import org.influxdb.dto.QueryResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author yongzan
@@ -16,6 +17,8 @@ import org.influxdb.dto.QueryResult;
  * @Ref https://github.com/miwurster/spring-data-influxdb
  */
 public class InfluxDBTemplate implements InfluxDBOperations<Point>{
+    private static final Logger logger = LoggerFactory.getLogger(InfluxDBTemplate.class);
+    
     private InfluxDB influxDB;
     private final InfluxDBProperties properties;
 
@@ -57,7 +60,7 @@ public class InfluxDBTemplate implements InfluxDBOperations<Point>{
     @Override
     public void write(final List<Point> points) {
         //TODO tracking bug of points insert.
-        System.out.println(points.size());
+        logger.debug("Point size:{}", points.size());
         final String dbName = properties.getDatabase();
         final String policy = properties.getRetentionPolicy();
         BatchPoints batchPoints = BatchPoints
@@ -68,9 +71,9 @@ public class InfluxDBTemplate implements InfluxDBOperations<Point>{
                 .build();
         for (Point point : points) {
             batchPoints.point(point);
-            System.out.println(point.toString());
+//            System.out.println(point.toString());
         }
-        System.out.println(batchPoints.lineProtocol());
+//        System.out.println(batchPoints.lineProtocol());
         influxDB.write(batchPoints);
     }
 
@@ -93,7 +96,7 @@ public class InfluxDBTemplate implements InfluxDBOperations<Point>{
     @Override
     public QueryResult query(String queryString) {
          final String dbName = properties.getDatabase();
-        Query query = new Query("select count(*) from person ", dbName);
+        Query query = new Query(queryString , dbName);
         return influxDB.query(query);
     }
 
