@@ -17,6 +17,6 @@ database.influxdb:
       jpyrate: true
 # http server port
 server:
-  port: 8080
+  port: 9909
 
 ---

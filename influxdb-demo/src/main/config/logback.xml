@@ -34,7 +34,7 @@
       </timeBasedFileNamingAndTriggeringPolicy>
       <!-- keep days worth of history -->
       <maxHistory>7</maxHistory>
-      <!-- If set to true, archive removal will be executed on appender start 
+      <!-- If set to true, archive removal will be executed on appender start
         up. By default this property is set to false. -->
       <cleanHistoryOnStart>false</cleanHistoryOnStart>
     </rollingPolicy>
@@ -58,7 +58,7 @@
       </timeBasedFileNamingAndTriggeringPolicy>
       <!-- keep days worth of history -->
       <maxHistory>7</maxHistory>
-      <!-- If set to true, archive removal will be executed on appender start 
+      <!-- If set to true, archive removal will be executed on appender start
         up. By default this property is set to false. -->
       <cleanHistoryOnStart>false</cleanHistoryOnStart>
     </rollingPolicy>
@@ -66,7 +66,7 @@
       <pattern>${FILE_LOG_PATTERN}</pattern>
     </encoder>
   </appender>
-  <logger name="org.iii" level="DEBUG" additivity="true">
+  <logger name="org.iii" level="ERROR" additivity="true">
     <appender-ref ref="CORE_FILE" />
   </logger>
   <root level="ERROR">
