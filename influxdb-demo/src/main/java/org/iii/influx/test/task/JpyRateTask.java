@@ -63,12 +63,16 @@ public class JpyRateTask{
         dbTemplate.write(preProcessPoints);
     }
     private final String regex = "[-+\"`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？A-z0-9\\s]";
-    
+    private final static String regex_SWIFT="([a-zA-Z]{4}[a-zA-Z]{2}[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?)";
+    //http://tw.fnzcode.com/swift/taiwan/
+
     private Point newPoint(List<String> list) {
+        boolean filterFlag = list.get(0).matches(regex_SWIFT);
+        String tag = (filterFlag) ? list.get(0) :list.get(0).replaceAll(regex, "");
         return Point.measurement("exchange_rate").time(OffsetDateTime.now().toInstant().toEpochMilli(), TimeUnit.MILLISECONDS)
-                .tag("BankTag",   list.get(0).replaceAll(regex, "") )
+                .tag("BankTag",  tag  )
                 .addField("BankRaw", list.get(0))
-                .addField("BankName",  list.get(0).replaceAll(regex, "") )
+                .addField("BankName",  tag )
                 .addField("BuyIn", list.get(1))
                 .addField("BuyOut", list.get(2) )
                 .addField("LastTime", list.get(3) )
