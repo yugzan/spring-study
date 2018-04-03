@@ -1,0 +1,25 @@
+spring:
+  profiles:
+    active: production
+line.bot:
+  #cron: 05 * * * * ?
+  cron: 10 */60 * * * ?
+  channel-token: 
+  channel-secret:
+  handler.path: /callback
+---
+spring:
+  profiles: production
+
+database.influxdb:
+      enable: true
+      url: http://localhost:8086
+      username: 
+      password: 
+      database: LINE_KAWASE
+      retention-policy: autogen
+# http server port
+server:
+  port: 19901
+
+---
