@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,16 +43,28 @@ public class ERateServiceImpl implements ERateService{
 	}
 
 	@Override
+	public void getRealtimeValue(String orderISO, Consumer<BankResource> sucess, Consumer<Throwable> error){
+		try {
+			BankResource resource = parseResponse(orderISO);
+			resource.setIso(orderISO);
+			if(resource.getData().isEmpty()) {
+				error.accept(new  IOException("no data response."));
+			}else {
+				sucess.accept( resource );
+			}
+		} catch (IOException e) {
+			error.accept(e);
+		}
+	}
+	@Override
 	public String getLastValue(String orderISO) throws Exception {
 		Objects.requireNonNull(dbTemplate, "DB is not setting.");
-
-		List<BankPoint> results = dbTemplate.queryTo("SELECT * FROM bank_point WHERE iso='"+ orderISO+"'", BankPoint.class);
-
-		logger.error("{}", results.size());
+		List<BankPoint> results = dbTemplate.queryTo( String.format( SQL_BY_LASTONE, "bank_point", "10m",orderISO) , BankPoint.class);
+		logger.info("{} : {}",  String.format( SQL_BY_LASTONE, "bank_point", "10m",orderISO),results.size());
 		return results.stream()
 				.filter(p->p.getBuyIn()!=null)
 				.map( point->{
-			logger.error("{} {}", point.getBankName(), point.getBuyOut());
+//			logger.error("{} {}", point.getBankName(), point.getBuyOut());
 			return point.getBankName() + point.getBuyOut();
 		})
 		.collect(Collectors.joining("\n"));
@@ -65,23 +78,6 @@ public class ERateServiceImpl implements ERateService{
 		}).collect(Collectors.joining("\n"));
 	}
 	
-	
-	
-//    private Point newPoint(List<String> list, String iso) {
-//        boolean filterFlag = list.get(0).matches(REGEX_SWIFT);
-//        String tag = (filterFlag) ? list.get(0) :list.get(0).replaceAll(REGEX, "");
-//        return Point.measurement("new_exchange_rate").time(OffsetDateTime.now().toInstant().toEpochMilli(), TimeUnit.MILLISECONDS)
-//                .tag("BankTag",  tag  )
-//                .tag("iso",   iso  )
-//                .addField("BankRaw", list.get(0))
-//                .addField("BankName",  tag )
-//                .addField("BuyIn", list.get(1))
-//                .addField("BuyOut", list.get(2) )
-//                .addField("LastTime", list.get(3) )
-//                .addField("other", list.get(4) )
-//                .build();
-//    }
-
 	private BankResource parseResponse(String iso) throws IOException {
 		String url = "http://tw.rter.info/json.php?t=currency&q=check&iso=";
 		OkHttpClient client = new OkHttpClient();
@@ -95,5 +91,15 @@ public class ERateServiceImpl implements ERateService{
 		boolean filterFlag = rawBankName.matches(REGEX_SWIFT);
 		return (filterFlag) ? rawBankName : rawBankName.replaceAll(REGEX, "");
 	}
+
+	@Override
+	public List<BankPoint> query(String queryString) throws Exception {
+		try {
+			return dbTemplate.queryTo(queryString, BankPoint.class);
+		}catch(Exception e) {
+			throw e;
+		}
+	}
+
 
 }

@@ -2,6 +2,7 @@ package org.yugzan.linebot.influx;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import org.influxdb.dto.Query;
 import org.influxdb.dto.QueryResult;
@@ -40,6 +41,8 @@ public interface InfluxDBOperations<T> {
     QueryResult query(final Query query, final TimeUnit timeUnit);
     
     <S> List<S> queryTo(final String queryString, Class<S> clazz);
+    
+    <S> void queryTo(final String queryString, Class<S> clazz,  final Consumer<List<S>> onSuccess, final Consumer<Throwable> onFailure);
     /**
      * Drop the database.
      */

@@ -22,12 +22,15 @@ import com.google.common.collect.Lists;
 @ConditionalOnExpression("${database.influxdb.enable}")
 public class ERateInsertTask {
 	private static final Logger logger = LoggerFactory.getLogger(ERateInsertTask.class);
-
+	
+	private static final List<String> ORDER_ISO =  Lists.newArrayList("JPY", "USD","EUR","HKD","CNY","AUD","GBP","THB","SGD","CAD");
+	
 	@Autowired
 	private InfluxDBTemplate dbTemplate;
 
 	@Autowired
 	private ERateService rateService;
+
 
     @PostConstruct
     private void initTask(){
@@ -36,22 +39,24 @@ public class ERateInsertTask {
     
 	@Scheduled(cron = "0 0/1 * * * ?")
 	public void parser() {
-		List<String> orderISOs = Lists.newArrayList("JPY", "USD");
-		logger.error("ISO:{}", orderISOs.toString());
-		try {
-			BankResource resource = rateService.getRealtimeValue(orderISOs.get(0));
-			dbTemplate.write(ResourceConverter.convert(resource));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		Currency.getAvailableCurrencies().stream().map(c->c.getCurrencyCode())
+//		.collect(Collectors.toList()); 
+		logger.info("ISO:{}", ORDER_ISO.toString());
+		ORDER_ISO.stream().forEach( iso->{
+			rateService.getRealtimeValue( iso, resource->{
+				dbTemplate.write(ResourceConverter.convert(resource));
+			}, err->{
+				err.printStackTrace();
+			});
+		});
 	}
 	
 //	@Scheduled(cron = "*/5 * * * * ?")
 	public void queryTest() {
-		List<String> orderISOs = Lists.newArrayList("JPY", "USD");
+
 		logger.error("queryTest");
 		try {
-			System.out.println( rateService.getLastValue(orderISOs.get(0)) );
+			System.out.println( rateService.getLastValue(ORDER_ISO.get(0)) );
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

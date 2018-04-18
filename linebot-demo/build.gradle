@@ -66,6 +66,7 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.1'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.8.1'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.1'
+	compile 'com.jayway.jsonpath:json-path:2.4.0'
     compile 'com.linecorp.bot:line-bot-spring-boot:1.15.0'
     compile 'com.linecorp.bot:line-bot-api-client:1.15.0'
     compile 'com.google.guava:guava:21.0'

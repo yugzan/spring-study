@@ -17,8 +17,11 @@ public class BankPoint {
 	@Column(name = "iso")
 	private String iso;
 
+	@Column(name = "time")
+	private Instant time;
+
 	@Column(name = "lastTime")
-	private Instant lastTime;
+	private String lastTime;
 
 	@Column(name = "bankInfo")
 	private String bankInfo;
@@ -43,7 +46,7 @@ public class BankPoint {
 		return iso;
 	}
 
-	public Instant getLastTime() {
+	public String getLastTime() {
 		return lastTime;
 	}
 
@@ -75,7 +78,7 @@ public class BankPoint {
 		this.iso = iso;
 	}
 
-	public void setLastTime(Instant lastTime) {
+	public void setLastTime(String lastTime) {
 		this.lastTime = lastTime;
 	}
 
@@ -97,6 +100,14 @@ public class BankPoint {
 
 	public void setOther(String other) {
 		this.other = other;
+	}
+
+	public Instant getTime() {
+		return time;
+	}
+
+	public void setTime(Instant time) {
+		this.time = time;
 	}
 
 }

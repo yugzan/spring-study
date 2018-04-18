@@ -2,6 +2,7 @@ package org.yugzan.linebot.influx;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDB.ConsistencyLevel;
 import org.influxdb.dto.BatchPoints;
@@ -105,6 +106,15 @@ public class InfluxDBTemplate implements InfluxDBOperations<Point>{
 		InfluxDBResultMapper resultMapper = new InfluxDBResultMapper();
 		List<S> pointList = resultMapper.toPOJO(result, clazz);
 		return pointList;
+	}
+
+	@Override
+	public <S> void queryTo(String queryString, Class<S> clazz, Consumer<List<S>> onSuccess, Consumer<Throwable> onFailure) {
+		try{
+			onSuccess.accept( queryTo(queryString, clazz));
+		}catch(Exception e){
+			onFailure.accept(e);
+		}
 	}
 
     
