@@ -48,7 +48,13 @@ var authorization = function(req, res, callback){
     }
   }
 }
+app.get('/', function(req, res) {
 
+    authorization(req, res, function (r) {
+              r.status(200).send( { 'hellow':'world'} );
+              console.log(JSON.stringify( { 'hellow':'world'} ));
+    });
+});
 app.get('/auth', function(req, res) {
 
     authorization(req, res, function (r) {
@@ -57,15 +63,21 @@ app.get('/auth', function(req, res) {
     });
 });
 
-app.get('/item', function(req, res) {
+app.get('/400', function(req, res) {
 
     authorization(req, res, function (r) {
               r.status(400).send( error_message );
               console.log(JSON.stringify(error_message));
     });
 });
+app.get('/403', function(req, res) {
 
-app.get('/', function(req, res) {
+    authorization(req, res, function (r) {
+              r.status(403).send( error_message );
+              console.log(JSON.stringify(error_message));
+    });
+});
+app.get('/500', function(req, res) {
 
     authorization(req, res, function (r) {
               r.status(500).send( error_message );

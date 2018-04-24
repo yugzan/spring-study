@@ -61,7 +61,6 @@ repositories {
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
-	compile 'org.springframework.boot:spring-boot-starter-actuator'
 	compile 'org.springframework:spring-aspects'
 	compile 'org.springframework.retry:spring-retry'
 }

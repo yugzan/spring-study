@@ -60,12 +60,17 @@ public class MainTestService {
     	System.out.println("=======>Test non-auth Get [/].");
     	service.tryLogin(url);
     	
+    	System.out.println("=======>Test auth Get [/400].");
+    	service.tryLogin(url+"/400", authEntity);
+    	
+    	System.out.println("=======>Test auth Get [/403].");
+    	service.tryLogin(url+"/403", authEntity);
     	
     	System.out.println("=======>Test auth Get [/random].");
     	service.tryLogin(url+"/random", authEntity);
     	
-    	System.out.println("=======>Test auth Get [/item].");
-    	service.tryLogin(url+"/item", authEntity);
+    	System.out.println("=======>Test auth Get [/500].");
+    	service.tryLogin(url+"/500", authEntity);
     }
     
     HttpHeaders createHeaders(String username, String password){
