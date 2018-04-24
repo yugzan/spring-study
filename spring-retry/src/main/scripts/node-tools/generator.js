@@ -16,9 +16,11 @@ var user = {
         "password": "password"
     }
 }
-var error_message = {
-    "error": {
-        "reason": "unknow"
+var error_message = function(message) {
+    return {
+        "error": {
+            "reason": message||"unknow"
+        }
     }
 }
 
@@ -66,27 +68,28 @@ app.get('/auth', function(req, res) {
 app.get('/400', function(req, res) {
 
     authorization(req, res, function (r) {
-              r.status(400).send( error_message );
-              console.log(JSON.stringify(error_message));
+              r.status(400).send( error_message(400) );
+              console.log(JSON.stringify(error_message(400)));
     });
 });
 app.get('/403', function(req, res) {
 
     authorization(req, res, function (r) {
-              r.status(403).send( error_message );
-              console.log(JSON.stringify(error_message));
+              r.status(403).send( error_message(403) );
+              console.log(JSON.stringify(error_message(403) ));
     });
 });
 app.get('/500', function(req, res) {
 
     authorization(req, res, function (r) {
-              r.status(500).send( error_message );
-              console.log(JSON.stringify(error_message));
+              r.status(500).send( error_message(500) );
+              console.log(JSON.stringify( error_message(500) ));
     });
 });
 
 app.get('*', function(req, res){
-  res.status(404).send({'error': {'reason': 'what???'}});
+  res.status(404).send( error_message( 'what???' ) );
+  console.log(JSON.stringify( error_message('what???') ));
 });
 
 

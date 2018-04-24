@@ -1,5 +1,6 @@
 package org.yugzan.retry.core;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,9 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class LoginOperate {
 	
+	@Autowired
+	private RestTemplate restTemplate;
+
 	public void login(String resourceUrl) {
 		login(resourceUrl, null);
 	}
@@ -21,9 +25,7 @@ public class LoginOperate {
 	public void login(String resourceUrl, HttpEntity<String> entity) {
     	System.out.println("Run login");
     	try{
-    		RestTemplate restTemplate = new RestTemplate();
         	ResponseEntity<String> response = restTemplate.exchange(resourceUrl, HttpMethod.GET, entity ,String.class);
-
         	System.out.println("finish :" + response.getStatusCode());
         }catch(HttpClientErrorException e) {
         	// 過濾HttpClientErrorException 錯誤如果是驗證錯誤狀態碼就終止嘗試執行
