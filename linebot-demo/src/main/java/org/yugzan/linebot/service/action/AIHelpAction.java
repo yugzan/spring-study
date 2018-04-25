@@ -23,7 +23,14 @@ public class AIHelpAction extends AIAction{
 	@Override
 	protected void action(MessageEvent<TextMessageContent> text) {
 		logger.info("action");
-		client.replyMessage( new ReplyMessage(text.getReplyToken(), new TextMessage("需要幫你叫救護車嗎？")));
+		StringBuffer buf = new StringBuffer("我的指令：\n");
+		buf.append("查詢\n");
+		buf.append("查詢 {幣別代號}\n");
+		buf.append("即時匯率\n");
+		buf.append("即時匯率 {幣別代號}\n");
+		buf.append("SET {幣別代號} {需通知數值}\n");
+		buf.append("SETBANK {銀行名稱}\n");
+		client.replyMessage( new ReplyMessage(text.getReplyToken(), new TextMessage(buf.toString() + "需要幫你叫救護車嗎？")));
 	}
 
 	@Override

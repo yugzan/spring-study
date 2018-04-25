@@ -1,6 +1,6 @@
-package org.yugzan.linebot.influx.model;
+package org.yugzan.linebot.model;
 
-import java.util.Map;
+import java.util.HashMap;
 
 /**
  * @author yongzan
@@ -12,7 +12,20 @@ public class UserResource {
 
 	private String bankName;
 
-	private Map<String, String> threshold;
+	private HashMap<String, String> threshold;
+
+	
+	
+	public UserResource(String lineId, String bankName, HashMap<String, String> threshold) {
+		super();
+		this.lineId = lineId;
+		this.bankName = bankName;
+		this.threshold = threshold;
+	}
+
+	public UserResource() {
+
+	}
 
 	public String getBankName() {
 		return bankName;
@@ -22,11 +35,11 @@ public class UserResource {
 		this.bankName = bankName;
 	}
 
-	public Map<String, String> getThreshold() {
+	public HashMap<String, String> getThreshold() {
 		return threshold;
 	}
 
-	public void setThreshold(Map<String, String> threshold) {
+	public void setThreshold(HashMap<String, String> threshold) {
 		this.threshold = threshold;
 	}
 

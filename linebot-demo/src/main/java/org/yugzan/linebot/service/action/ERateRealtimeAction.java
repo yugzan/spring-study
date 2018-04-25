@@ -38,7 +38,7 @@ public class ERateRealtimeAction extends ERateAction{
 	@Override
 	protected void action(MessageEvent<TextMessageContent> event) {
 		logger.info("action");
-		String orderISO = event.getMessage().getText().replace("匯率","").trim().toUpperCase();
+		String orderISO = event.getMessage().getText().replace("即時匯率","").trim().toUpperCase();
 		try {
 			if(orderISO.isEmpty()) {
 				//TODO user define in future.
@@ -54,7 +54,7 @@ public class ERateRealtimeAction extends ERateAction{
 	@Override
 	protected boolean isActive(MessageEvent<TextMessageContent> event) {
 		String input = event.getMessage().getText().trim();
-		return input.startsWith("匯率") ||currencyList.contains(input);
+		return input.startsWith("即時匯率") ||currencyList.contains(input);
 	}
  
 

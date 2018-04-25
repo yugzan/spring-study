@@ -1,4 +1,4 @@
-package org.yugzan.linebot.influx.model;
+package org.yugzan.linebot;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

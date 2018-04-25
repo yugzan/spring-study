@@ -1,4 +1,4 @@
-package org.yugzan.linebot.influx.model;
+package org.yugzan.linebot.model;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.influxdb.dto.Point;
+import org.yugzan.linebot.ObjectMapperHolder;
 import org.yugzan.linebot.erate.core.ERateService;
 
 import com.fasterxml.jackson.core.JsonParseException;

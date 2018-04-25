@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.yugzan.linebot.erate.core.ERateService;
-import org.yugzan.linebot.influx.model.BankPoint;
+import org.yugzan.linebot.model.BankPoint;
 
 /**
  * @author yongzan

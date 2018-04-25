@@ -6,12 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.data.influxdb.DefaultInfluxDBTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.yugzan.linebot.erate.core.ERateService;
-import org.yugzan.linebot.influx.InfluxDBTemplate;
-import org.yugzan.linebot.influx.model.BankResource;
-import org.yugzan.linebot.influx.model.ResourceConverter;
+import org.yugzan.linebot.model.ResourceConverter;
+
 import com.google.common.collect.Lists;
 
 /**
@@ -19,14 +19,14 @@ import com.google.common.collect.Lists;
  * @date 2018/04/02
  */
 @Component
-@ConditionalOnExpression("${database.influxdb.enable}")
+@ConditionalOnExpression("${spring.influxdb.enable}")
 public class ERateInsertTask {
 	private static final Logger logger = LoggerFactory.getLogger(ERateInsertTask.class);
 	
 	private static final List<String> ORDER_ISO =  Lists.newArrayList("JPY", "USD","EUR","HKD","CNY","AUD","GBP","THB","SGD","CAD");
 	
 	@Autowired
-	private InfluxDBTemplate dbTemplate;
+	private DefaultInfluxDBTemplate dbTemplate;
 
 	@Autowired
 	private ERateService rateService;
@@ -34,11 +34,11 @@ public class ERateInsertTask {
 
     @PostConstruct
     private void initTask(){
-        logger.info("task ERateInsertTask");
+        logger.info("task ERateTask");
     }
     
 	@Scheduled(cron = "0 0/1 * * * ?")
-	public void parser() {
+	public void parserToDatabase() {
 //		Currency.getAvailableCurrencies().stream().map(c->c.getCurrencyCode())
 //		.collect(Collectors.toList()); 
 		logger.info("ISO:{}", ORDER_ISO.toString());
@@ -51,15 +51,4 @@ public class ERateInsertTask {
 		});
 	}
 	
-//	@Scheduled(cron = "*/5 * * * * ?")
-	public void queryTest() {
-
-		logger.error("queryTest");
-		try {
-			System.out.println( rateService.getLastValue(ORDER_ISO.get(0)) );
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
 }

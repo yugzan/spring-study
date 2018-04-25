@@ -11,17 +11,17 @@ public abstract class AbstractAction<T> {
 
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
-	public boolean excute(T text) {
-		if(isActive(text)) {
-			this.action(text);
+	public boolean excute(T content) {
+		if(isActive(content)) {
+			this.action(content);
 			return true;
 		}
 		return false;
 	}
 	
-	protected abstract void action(T text);
+	protected abstract void action(T content);
 	
-	protected abstract boolean isActive(T text);
+	protected abstract boolean isActive(T content);
 
 	
 }

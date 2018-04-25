@@ -1,4 +1,4 @@
-package org.yugzan.linebot.influx.model;
+package org.yugzan.linebot.model;
 /**
  * @author yongzan
  * @date 2018/04/03 

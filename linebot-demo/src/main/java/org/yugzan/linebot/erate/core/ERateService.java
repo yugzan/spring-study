@@ -3,8 +3,9 @@ package org.yugzan.linebot.erate.core;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.yugzan.linebot.influx.model.BankPoint;
-import org.yugzan.linebot.influx.model.BankResource;
+import org.yugzan.linebot.model.BankPoint;
+import org.yugzan.linebot.model.BankResource;
+import org.yugzan.linebot.model.UserResource;
 
 /**
  * @author yongzan
@@ -19,6 +20,9 @@ public interface ERateService {
 	public final static String SQL_BY_LASTONE=
 			"SELECT * FROM \"%s\" WHERE time > now() - %s AND \"iso\"='%s' GROUP BY \"bankTag\" LIMIT 1";
 	//bank_point , 1m , JPY 
+	
+	public final static String RESULT_TEMPLAT="%s(): 買入:%s 賣出:%s";
+	public final static String SIMPLE_RESULT_TEMPLAT="%s(%s): :%s";
 	/**
 	 * Convert raw object to string.
 	 * */
@@ -37,8 +41,17 @@ public interface ERateService {
 	/**
 	 *  Get value from Database. 
 	 * */	
-	public String getLastValue(String orderISO) throws Exception;
+	public String getLastValue(List<String> orderISOs) throws Exception;
 	
+	/**
+	 *  Get value from Database. 
+	 * */	
+	public String getLastValue(List<String> orderISOs, String filterBank) throws Exception;
+	
+	/**
+	 *  Setting user resource value to Database. 
+	 * */	
+	public void setUserResource(UserResource resource) throws Exception;
 	/**
 	 *  Direct query string to query bank point. 
 	 * */

@@ -1,4 +1,4 @@
-package org.yugzan.linebot.influx.model;
+package org.yugzan.linebot.model;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;

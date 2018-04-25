@@ -3,7 +3,7 @@ package org.yugzan.linebot;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.yugzan.linebot.influx.model.ObjectMapperHolder;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration

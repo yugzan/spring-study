@@ -14,6 +14,7 @@ public class LinebotDemoApplication implements CommandLineRunner {
         SpringApplication.run(LinebotDemoApplication.class, args);
     }
 
+	
     @Override
     public void run(String... args) throws Exception {
 
