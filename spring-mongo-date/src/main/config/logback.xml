@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+  <conversionRule conversionWord="clr"
+    converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+  <conversionRule conversionWord="wEx"
+    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+  <property name="CONSOLE_LOG_PATTERN"
+    value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} [%clr(${LOG_LEVEL_PATTERN:-%5p})] %clr(${PID:- }){magenta} %clr(-){faint} %clr([%t]){faint} %clr(%-32class{36} %-3L){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%rEx}" />
+  <property name="FILE_LOG_PATTERN"
+    value="%d{yyyy-MM-dd HH:mm:ss.SSS} [${LOG_LEVEL_PATTERN:-%5p}] ${PID:- } --- [%t] %-32class{36} %-3L : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%rEx}" />
+  <property name="CORE_LOG_FILE"
+    value="${LOG_FILE:-${LOG_PATH:-${java.io.tmpdir:-/tmp}}/core.log}" />
+  <property name="ALL_LOG_FILE"
+    value="${LOG_FILE:-${LOG_PATH:-${java.io.tmpdir:-/tmp}}/all.log}" />
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+      <charset>utf8</charset>
+    </encoder>
+  </appender>
+  <appender name="CORE_FILE"
+    class="ch.qos.logback.core.rolling.RollingFileAppender"
+  >
+    <file>log/core.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>log/core.%d{yyyy-MM-dd}.%i
+      </fileNamePattern>
+      <timeBasedFileNamingAndTriggeringPolicy
+        class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP"
+      >
+        <!-- or whenever the file size reaches <maxFileSize> -->
+        <maxFileSize>100MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+      <!-- keep days worth of history -->
+      <maxHistory>7</maxHistory>
+      <!-- If set to true, archive removal will be executed on appender start
+        up. By default this property is set to false. -->
+      <cleanHistoryOnStart>false</cleanHistoryOnStart>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${FILE_LOG_PATTERN}</pattern>
+    </encoder>
+  </appender>
+  <appender name="ALL_FILE"
+    class="ch.qos.logback.core.rolling.RollingFileAppender"
+  >
+    <file>log/all.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>log/all.%d{yyyy-MM-dd}.%i
+      </fileNamePattern>
+      <timeBasedFileNamingAndTriggeringPolicy
+        class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP"
+      >
+        <!-- or whenever the file size reaches <maxFileSize> -->
+        <maxFileSize>100MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+      <!-- keep days worth of history -->
+      <maxHistory>7</maxHistory>
+      <!-- If set to true, archive removal will be executed on appender start
+        up. By default this property is set to false. -->
+      <cleanHistoryOnStart>false</cleanHistoryOnStart>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${FILE_LOG_PATTERN}</pattern>
+    </encoder>
+  </appender>
+  <logger name="org.yugzan" level="INFO" additivity="true">
+    <appender-ref ref="CORE_FILE" />
+  </logger>
+  <root level="ERROR">
+    <appender-ref ref="ALL_FILE" />
+    <appender-ref ref="CONSOLE" />
+  </root>
+</configuration>
