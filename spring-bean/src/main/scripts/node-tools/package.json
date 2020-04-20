@@ -1,0 +1,14 @@
+{
+  "name": "fake-server",
+  "description": "fake-server",
+  "version": "0.0.1",
+  "author": "name <email@org.tw>",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "request": "*"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  }
+}

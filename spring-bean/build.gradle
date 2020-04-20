@@ -1,0 +1,64 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.22.RELEASE'
+	}
+	repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.spring.io/release" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url "http://repo.spring.io/snapshot" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+jar {
+	baseName = 'version'
+	
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+version = '0.0.1-SNAPSHOT'
+
+build.doFirst {
+    tasks.copyConfigs.execute()
+	tasks.copyScripts.execute()
+}
+
+task copyConfigs(type: Copy) {
+    from 'src/main/config'
+    into "${buildDir}/libs/config"
+
+    include '**/*'
+    includeEmptyDirs = false
+}
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+task copyScripts(type: Copy) {
+    from 'src/main/scripts'
+    into "${buildDir}/libs/"
+
+    include '**/*.sh'
+    includeEmptyDirs = false
+
+    filter(ReplaceTokens, tokens: [name: jar.baseName, version: version])
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repo.spring.io/release" }
+    maven { url "http://repo.spring.io/milestone" }
+    maven { url "http://repo.spring.io/snapshot" }
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web'
+}
